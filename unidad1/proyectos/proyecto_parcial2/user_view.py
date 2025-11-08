@@ -26,7 +26,7 @@ class UserApp:
         tk.Button(self.root,text="Eliminar usuarios", command=self.eliminar_usuarios , width=20).pack(pady=10)
         tk.Button(self.root,text="Cerrar sesión", width=50,command=self.cerrar_sesion).pack(pady=20)
         
-        #Creacion de tablas para ver usuarios
+        #Creacion de las tablas para ver usuarios
         self.tree=ttk.Treeview(self.root, columns=("ID","Username"),height=10,show="headings")
         self.tree.heading("ID",text="ID usuario")
         self.tree.heading("Username",text="Nombre del usuario")
@@ -44,6 +44,8 @@ class UserApp:
         for (us_nomb,ID_us) in uc.ver_usuarios():
             self.tree.insert('',0,text="",values=(us_nomb,ID_us))
     '''              
+
+    #ver usuariso en la base de datos
     def ver_usuarios(self):
         if not self.tree:
             return
@@ -53,7 +55,6 @@ class UserApp:
             self.tree.delete(item)
         
         try:
-            # Usa el alias 'uc' para evitar el conflicto de nombres
             usuarios = uc.ver_usuarios() 
             # Insertar usuarios en la tabla
             for usuario in usuarios:
@@ -69,7 +70,7 @@ class UserApp:
         agregar_window.geometry("300x200")
         agregar_window.resizable(False, False)
         
-        # Centrar la ventana
+        # Centrar ventana
         agregar_window.transient(self.root)
         agregar_window.grab_set()
         
@@ -91,12 +92,12 @@ class UserApp:
                 return
             
             try:
-                # Llamar a la función del controlador para agregar usuario
+                # función del controlador para agregar usuario
                 resultado = agregar_usuarios(username, password)
                 if resultado:
                     messagebox.showinfo("Éxito", "Usuario agregado correctamente")
                     agregar_window.destroy()
-                    self.ver_usuarios()  # Actualizar la tabla
+                    self.ver_usuarios()  
                 else:
                     messagebox.showerror("Error", "No se pudo agregar el usuario")
             except Exception as e:
@@ -117,17 +118,16 @@ class UserApp:
         item = self.tree.item(seleccion[0])
         user_id, old_username = item['values']
         
-        # Crear ventana emergente para actualizar usuario
+        # Creasion de la ventana emergente para actualizar usuario
         actualizar_window = tk.Toplevel(self.root)
         actualizar_window.title("Actualizar Usuario")
         actualizar_window.geometry("300x250")
         actualizar_window.resizable(False, False)
         
-        # Centrar la ventana
         actualizar_window.transient(self.root)
         actualizar_window.grab_set()
         
-        # Campos del formulario
+        # Campos formulario
         tk.Label(actualizar_window, text="ID Usuario:").pack(pady=5)
         id_label = tk.Label(actualizar_window, text=str(user_id))
         id_label.pack(pady=5)

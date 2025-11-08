@@ -23,7 +23,7 @@ def agregar_usuarios(username, password):
     if conexion:
         try:
             cursor = conexion.cursor()
-            # CORREGIDO: usar 'username' en lugar de 'usuario'
+            # 'username' en lugar de 'usuario'
             consulta = "INSERT INTO usuarios (username, password) VALUES (%s, %s)"
             cursor.execute(consulta, (username, password))
             conexion.commit()
